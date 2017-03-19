@@ -43,6 +43,12 @@ function gui.newObject(x, y, l, h)
   function object.drawArea(a)
     draw_area = a
   end
+  function object.setAreaColor(r, g, b, a)
+    area_color = {r, g, b, a}
+  end
+  function object.setBorderColor(r, g, b, a)
+    border_color = {r, g, b, a}
+  end
 
 
   -- love engine callback methods
