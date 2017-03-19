@@ -75,23 +75,143 @@ function gui.newObject(x, y, l, h)
     if visable then
       love.graphics.setLineWidth(line_width)
       love.graphics.setPointSize(line_width)
+
+      local x_1_top    = x + border_radius_1 + line_width
+      local x_2_top    = x + l - border_radius_2 - line_width
+      local x_1_bottom = x + border_radius_4 + line_width
+      local x_2_bottom = x + l - border_radius_3 - line_width
+      local y_1_left   = y + border_radius_1 + line_width
+      local y_2_left   = y + h - border_radius_4 - line_width
+      local y_1_right  = y + border_radius_2 + line_width
+      local y_2_right  = y + h - border_radius_3 - line_width
+
+      local x_1_main   = math.max(x_1_top, x_1_bottom) - 1
+      local x_2_main   = math.min(x_2_top, x_2_bottom) + 1
+
       -- area
       if draw_area then
         love.graphics.setColor(unpackColor(area_color))
-        love.graphics.polygon("fill", x, y, x + l, y, x + l, y + h, x, y + h)
+
+        love.graphics.polygon(
+          "fill",
+          x_1_main, y,
+          x_2_main, y,
+          x_2_main, y + h,
+          x_1_main, y + h
+        )
+
+        if border_radius_1 > 0 then
+          love.graphics.arc(
+            "fill", "pie",
+            x_1_top - line_width, y_1_left - line_width,
+            border_radius_1,
+            math.pi, 3/2*math.pi
+          )
+          if border_radius_1 < border_radius_4 then
+            love.graphics.polygon(
+              "fill",
+              x, y_1_left - 1,
+              x + border_radius_1, y_1_left - 1,
+              x + border_radius_1, y_2_left + 1,
+              x, y_2_left + 1
+            )
+          else
+            love.graphics.polygon(
+              "fill",
+              x + border_radius_4, y_1_left - 1,
+              x + border_radius_1, y_1_left - 1,
+              x + border_radius_1, y + h,
+              x + border_radius_4, y + h
+            )
+          end
+        end
+
+        if border_radius_2 > 0 then
+          love.graphics.arc(
+            "fill", "pie",
+            x_2_top + line_width, y_1_right - line_width,
+            border_radius_2,
+            3/2*math.pi, 2*math.pi
+          )
+          if border_radius_2 < border_radius_3 then
+            love.graphics.polygon(
+              "fill",
+              x_2_top + line_width, y_1_right - 1,
+              x_2_top + border_radius_2, y_1_right - 1,
+              x_2_top + border_radius_2, y_2_right + 1,
+              x_2_top + line_width, y_2_right + 1
+            )
+          else
+            love.graphics.polygon(
+              "fill",
+              x_2_top + line_width, y_1_right - 1,
+              x_2_top + border_radius_2 - border_radius_3 + line_width, y_1_right - 1,
+              x_2_top + border_radius_2 - border_radius_3 + line_width, y + h,
+              x_2_top + line_width, y + h
+            )
+          end
+        end
+
+        if border_radius_3 > 0 then
+          love.graphics.arc(
+            "fill", "pie",
+            x_2_bottom + line_width, y_2_right + line_width,
+            border_radius_3,
+            0, 1/2*math.pi
+          )
+          if border_radius_3 ~= border_radius_2 then
+            if border_radius_3 < border_radius_2 then
+              love.graphics.polygon(
+                "fill",
+                x_2_bottom + line_width, y_1_right - 1,
+                x_2_bottom + border_radius_3, y_1_right - 1,
+                x_2_bottom + border_radius_3, y_2_right + 1,
+                x_2_bottom + line_width, y_2_right + 1
+              )
+            else
+              love.graphics.polygon(
+                "fill",
+                x_2_bottom + line_width, y,
+                x_2_bottom + border_radius_3 - border_radius_2 + line_width, y,
+                x_2_bottom + border_radius_3 - border_radius_2 + line_width, y_2_right + 1,
+                x_2_bottom + line_width, y_2_right + 1
+              )
+            end
+          end
+        end
+
+        if border_radius_4 > 0 then
+          love.graphics.arc(
+            "fill", "pie",
+            x_1_bottom - line_width, y_2_left + line_width,
+            border_radius_4,
+            1/2*math.pi, math.pi
+          )
+        end
+        if border_radius_4 ~= border_radius_1 then
+          if border_radius_4 < border_radius_1 then
+            love.graphics.polygon(
+              "fill",
+              x, y_1_left - 1,
+              x + border_radius_4, y_1_left - 1,
+              x + border_radius_4, y_2_left + 1,
+              x, y_2_left + 1
+            )
+          else
+            love.graphics.polygon(
+              "fill",
+              x + border_radius_1, y,
+              x + border_radius_4, y,
+              x + border_radius_4, y_2_left + 1,
+              x + border_radius_1, y_2_left + 1
+            )
+          end
+        end
       end
+
       -- border
       if draw_border then
         love.graphics.setColor(unpackColor(border_color))
-
-        local x_1_top    = x + border_radius_1 + line_width
-        local x_2_top    = x + l - border_radius_2 - line_width
-        local x_1_bottom = x + border_radius_4 + line_width
-        local x_2_bottom = x + l - border_radius_3 - line_width
-        local y_1_left   = y + border_radius_1 + line_width
-        local y_2_left   = y + h - border_radius_4 - line_width
-        local y_1_right  = y + border_radius_2 + line_width
-        local y_2_right  = y + h - border_radius_3 - line_width
 
         love.graphics.line(x_1_top, y, x_2_top, y)
         love.graphics.line(x_1_bottom, y + h, x_2_bottom, y + h)
