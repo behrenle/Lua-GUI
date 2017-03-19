@@ -177,6 +177,14 @@ function gui.newObject(x, y, l, h)
                 x_2_bottom + line_width, y_2_right + 1
               )
             end
+          else
+            love.graphics.polygon(
+              "fill",
+              x_2_top + 1, y_1_right - 1,
+              x + l, y_1_right - 1,
+              x + l, y_2_right + 1,
+              x_2_top + 1, y_2_right + 1
+            )
           end
         end
 
@@ -206,6 +214,14 @@ function gui.newObject(x, y, l, h)
               x + border_radius_1, y_2_left + 1
             )
           end
+        else
+          love.graphics.polygon(
+            "fill",
+            x, y_1_left - 1,
+            x + border_radius_1, y_1_left - 1,
+            x + border_radius_1, y_2_left + 1,
+            x, y_2_left + 1
+          )
         end
       end
 
