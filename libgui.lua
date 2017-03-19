@@ -22,6 +22,11 @@ function gui.newObject(x, y, l, h)
   --- colors
   local border_color = {255,255,255,255}
   local area_color   = {32, 32, 32, 255}
+  --- border arcs
+  local border_radius_1 = 0
+  local border_radius_2 = 0
+  local border_radius_3 = 0
+  local border_radius_4 = 0
 
 
   -- object methods
@@ -49,6 +54,20 @@ function gui.newObject(x, y, l, h)
   function object.setBorderColor(r, g, b, a)
     border_color = {r, g, b, a}
   end
+  function object.setBorderRadius(...)
+    local r = {...}
+    if #r == 1 then
+      border_radius_1 = r[1]
+      border_radius_2 = r[1]
+      border_radius_3 = r[1]
+      border_radius_4 = r[1]
+    else
+      border_radius_1 = r[1] or border_radius_1
+      border_radius_2 = r[2] or border_radius_2
+      border_radius_3 = r[3] or border_radius_3
+      border_radius_4 = r[4] or border_radius_4
+    end
+  end
 
 
   -- love engine callback methods
@@ -63,7 +82,53 @@ function gui.newObject(x, y, l, h)
       if draw_border then
         love.graphics.setColor(unpackColor(border_color))
         love.graphics.setLineWidth(line_width)
-        love.graphics.polygon("line", x, y, x + l, y, x + l, y + h, x, y + h)
+
+        local x_1_top    = x + border_radius_1
+        local x_2_top    = x + l - border_radius_2
+        local x_1_bottom = x + border_radius_4
+        local x_2_bottom = x + l - border_radius_3
+        local y_1_left   = y + border_radius_1
+        local y_2_left   = y + h - border_radius_4
+        local y_1_right  = y + border_radius_2
+        local y_2_right  = y + h - border_radius_3
+
+        love.graphics.line(x_1_top, y, x_2_top, y)
+        love.graphics.line(x_1_bottom, y + h, x_2_bottom, y + h)
+        love.graphics.line(x, y_1_left, x, y_2_left)
+        love.graphics.line(x + l, y_1_right, x + l, y_2_right)
+
+        if border_radius_1 > 0 then
+          love.graphics.arc(
+            "line", "open",
+            x_1_top, y_1_left,
+            border_radius_1,
+            math.pi, 3/2*math.pi
+          )
+        end
+        if border_radius_2 > 0 then
+          love.graphics.arc(
+            "line", "open",
+            x_2_top, y_1_right,
+            border_radius_2,
+            3/2*math.pi, 2*math.pi
+          )
+        end
+        if border_radius_3 > 0 then
+          love.graphics.arc(
+            "line", "open",
+            x_2_bottom, y_2_right,
+            border_radius_3,
+            0, 1/2*math.pi
+          )
+        end
+        if border_radius_4 > 0 then
+          love.graphics.arc(
+            "line", "open",
+            x_1_bottom, y_2_left,
+            border_radius_4,
+            1/2*math.pi, math.pi
+          )
+        end
       end
     end
   end
