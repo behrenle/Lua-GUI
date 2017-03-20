@@ -46,16 +46,6 @@ function gui.newObject(X, Y, L, H)
   setmetatable(style, meta_style)
 
   -- attributes
-  --- appearance
-  local visable    = true
-  local line_width_top    = 1
-  local line_width_bottom = 1
-  local line_width_left   = 1
-  local line_width_right  = 1
-  local arc_width_1 = 1
-  local arc_width_2 = 1
-  local arc_width_3 = 1
-  local arc_width_4 = 1
   --- components
   local draw_border = true
   local draw_area   = true
@@ -82,29 +72,29 @@ function gui.newObject(X, Y, L, H)
   function object.setLineWidth(...)
     local n = {...}
     if #n == 1 then
-      line_width_top    = n[1]
-      line_width_right  = n[1]
-      line_width_bottom = n[1]
-      line_width_left   = n[1]
+      default_style.line_width_top    = n[1]
+      default_style.line_width_right  = n[1]
+      default_style.line_width_bottom = n[1]
+      default_style.line_width_left   = n[1]
     else
-      line_width_top    = n[1] or 1
-      line_width_right  = n[2] or 1
-      line_width_bottom = n[3] or 1
-      line_width_left   = n[4] or 1
+      default_style.line_width_top    = n[1] or 1
+      default_style.line_width_right  = n[2] or 1
+      default_style.line_width_bottom = n[3] or 1
+      default_style.line_width_left   = n[4] or 1
     end
   end
   function object.setArcWidth(...)
     local n = {...}
     if #n == 1 then
-      arc_width_1 = n[1]
-      arc_width_2 = n[1]
-      arc_width_3 = n[1]
-      arc_width_4 = n[1]
+      style.arc_width_1 = n[1]
+      style.arc_width_2 = n[1]
+      style.arc_width_3 = n[1]
+      style.arc_width_4 = n[1]
     else
-      arc_width_1 = n[1] or 1
-      arc_width_2 = n[2] or 1
-      arc_width_3 = n[3] or 1
-      arc_width_4 = n[4] or 1
+      style.arc_width_1 = n[1] or 1
+      style.arc_width_2 = n[2] or 1
+      style.arc_width_3 = n[3] or 1
+      style.arc_width_4 = n[4] or 1
     end
   end
   function object.drawBorder(b)
@@ -203,7 +193,7 @@ function gui.newObject(X, Y, L, H)
 
   -- love engine callback methods
   function object.draw()
-    if visable then
+    if style.visable then
       local x_1_top    = style.x + border_radius_1
       local x_2_top    = style.x + style.l - border_radius_2
       local x_1_bottom = style.x + border_radius_4
@@ -358,32 +348,32 @@ function gui.newObject(X, Y, L, H)
         love.graphics.setColor(unpackColor(border_color))
         love.graphics.setLineStyle("smooth")
 
-        if line_width_top > 0 then
-          love.graphics.setLineWidth(line_width_top)
+        if style.line_width_top > 0 then
+          love.graphics.setLineWidth(style.line_width_top)
           love.graphics.line(
             x_1_top + 0.75, style.y,
             x_2_top - 0.75, style.y
           )
         end
 
-        if line_width_bottom > 0 then
-          love.graphics.setLineWidth(line_width_bottom)
+        if style.line_width_bottom > 0 then
+          love.graphics.setLineWidth(style.line_width_bottom)
           love.graphics.line(
             x_1_bottom + 0.75, style.y + style.h,
             x_2_bottom - 0.75, style.y + style.h
           )
         end
 
-        if line_width_left > 0 then
-          love.graphics.setLineWidth(line_width_left)
+        if style.line_width_left > 0 then
+          love.graphics.setLineWidth(style.line_width_left)
           love.graphics.line(
             style.x, y_1_left + 0.75,
             style.x, y_2_left - 0.75
           )
         end
 
-        if line_width_right > 0 then
-          love.graphics.setLineWidth(line_width_right)
+        if style.line_width_right > 0 then
+          love.graphics.setLineWidth(style.line_width_right)
           love.graphics.line(
             style.x + style.l, y_1_right + 0.75,
             style.x + style.l, y_2_right - 0.75
@@ -391,7 +381,7 @@ function gui.newObject(X, Y, L, H)
         end
 
         if border_radius_1 > 0 then
-          love.graphics.setLineWidth(arc_width_1)
+          love.graphics.setLineWidth(style.arc_width_1)
           love.graphics.arc(
             "line", "open",
             x_1_top, y_1_left,
@@ -400,7 +390,7 @@ function gui.newObject(X, Y, L, H)
           )
         end
         if border_radius_2 > 0 then
-          love.graphics.setLineWidth(arc_width_2)
+          love.graphics.setLineWidth(style.arc_width_2)
           love.graphics.arc(
             "line", "open",
             x_2_top, y_1_right,
@@ -409,7 +399,7 @@ function gui.newObject(X, Y, L, H)
           )
         end
         if border_radius_3 > 0 then
-          love.graphics.setLineWidth(arc_width_3)
+          love.graphics.setLineWidth(style.arc_width_3)
           love.graphics.arc(
             "line", "open",
             x_2_bottom, y_2_right,
@@ -418,7 +408,7 @@ function gui.newObject(X, Y, L, H)
           )
         end
         if border_radius_4 > 0 then
-          love.graphics.setLineWidth(arc_width_4)
+          love.graphics.setLineWidth(style.arc_width_4)
           love.graphics.arc(
             "line", "open",
             x_1_bottom, y_2_left,
