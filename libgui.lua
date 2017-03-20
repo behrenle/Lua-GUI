@@ -233,7 +233,7 @@ function gui.newObject(X, Y, L, H)
   function object.isInside(pos_x, pos_y)
     -- general hitbox
     if style.x <= pos_x and pos_x < style.x + style.l and
-       style.y <= pos_y and pos_y < style.y + h
+       style.y <= pos_y and pos_y < style.y + style.h
     then
       local x_1_top    = style.x + style.arc_radius_1
       local x_2_top    = style.x + style.l - style.arc_radius_2
