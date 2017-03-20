@@ -47,8 +47,19 @@ function gui.newObject(x, y, l, h)
   function object.setVisable(v)
     visable = v
   end
-  function object.setLineWidth(n)
-    line_width = n
+  function object.setLineWidth(...)
+    local n = {...}
+    if #n == 1 then
+      line_width_top    = n[1] or 1
+      line_width_bottom = n[1] or 1
+      line_width_left   = n[1] or 1
+      line_width_right  = n[1] or 1
+    else
+      line_width_top    = n[1] or 1
+      line_width_bottom = n[2] or 1
+      line_width_left   = n[3] or 1
+      line_width_right  = n[4] or 1
+    end
   end
   function object.drawBorder(b)
     draw_border = b
