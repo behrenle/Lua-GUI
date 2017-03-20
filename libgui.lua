@@ -68,6 +68,68 @@ function gui.newObject(x, y, l, h)
       border_radius_4 = r[4] or border_radius_4
     end
   end
+  function object.isInside(pos_x, pos_y)
+    -- general hitbox
+    if x <= pos_x and pos_x < x + l and
+       y <= pos_y and pos_y < y + h
+    then
+      local x_1_top    = x + border_radius_1
+      local x_2_top    = x + l - border_radius_2
+      local x_1_bottom = x + border_radius_4
+      local x_2_bottom = x + l - border_radius_3
+      local y_1_left   = y + border_radius_1
+      local y_2_left   = y + h - border_radius_4
+      local y_1_right  = y + border_radius_2
+      local y_2_right  = y + h - border_radius_3
+
+      local x_1_main   = math.max(x_1_top, x_1_bottom)
+      local x_2_main   = math.min(x_2_top, x_2_bottom)
+
+      -- main area
+      if x_1_main <= pos_x and pos_x <= x_2_main then
+        return true, "main"
+      end
+
+      -- corner 1:
+      if pos_x <= x_1_top and pos_y <= y_1_left then
+        local dx = x_1_top - pos_x
+        local dy = y_1_left - pos_y
+        local dq = dx^2 + dy^2
+        if dq <= border_radius_1^2 then
+          return true, "corner_1"
+        end
+      end
+      -- corner 2:
+      if pos_x >= x_2_top and pos_y <= y_1_right then
+        local dx = x_2_top - pos_x
+        local dy = y_1_right - pos_y
+        local dq = dx^2 + dy^2
+        if dq <= border_radius_2^2 then
+          return true, "corner_2"
+        end
+      end
+      -- corner_3:
+      if pos_x >= x_2_bottom and pos_y >= y_2_right then
+        local dx = x_2_bottom - pos_x
+        local dy = y_2_right - pos_y
+        local dq = dx^2 + dy^2
+        if dq <= border_radius_2^2 then
+          return true, "corner_3"
+        end
+      end
+      -- corner_4:
+      if pos_x <= x_1_bottom and pos_y >= y_2_left then
+        local dx = x_1_bottom - pos_x
+        local dy = y_2_left - pos_y
+        local dq = dx^2 + dy^2
+        if dq <= border_radius_2^2 then
+          return true, "corner_4"
+        end
+      end
+
+      return false
+    end
+  end
 
 
   -- love engine callback methods
@@ -85,8 +147,8 @@ function gui.newObject(x, y, l, h)
       local y_1_right  = y + border_radius_2 + line_width
       local y_2_right  = y + h - border_radius_3 - line_width
 
-      local x_1_main   = math.max(x_1_top, x_1_bottom) - 1
-      local x_2_main   = math.min(x_2_top, x_2_bottom) + 1
+      local x_1_main   = math.max(x_1_top, x_1_bottom)
+      local x_2_main   = math.min(x_2_top, x_2_bottom)
 
       -- area
       if draw_area then
@@ -94,10 +156,10 @@ function gui.newObject(x, y, l, h)
 
         love.graphics.polygon(
           "fill",
-          x_1_main, y,
-          x_2_main, y,
-          x_2_main, y + h,
-          x_1_main, y + h
+          x_1_main - 1, y,
+          x_2_main + 1, y,
+          x_2_main + 1, y + h,
+          x_1_main - 1, y + h
         )
 
         if border_radius_1 > 0 then
