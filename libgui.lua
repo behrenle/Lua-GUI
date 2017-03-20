@@ -182,8 +182,8 @@ function gui.newObject(x, y, l, h)
             love.graphics.polygon(
               "fill",
               x, y_1_left - 1,
-              x + border_radius_1, y_1_left - 1,
-              x + border_radius_1, y_2_left + 1,
+              x + border_radius_1 - 1, y_1_left - 1,
+              x + border_radius_1 - 1, y_2_left + 1,
               x, y_2_left + 1
             )
           else
@@ -243,8 +243,8 @@ function gui.newObject(x, y, l, h)
               love.graphics.polygon(
                 "fill",
                 x_2_bottom + 1, y,
-                x_2_bottom + border_radius_3 - border_radius_2 + line_width, y,
-                x_2_bottom + border_radius_3 - border_radius_2 + line_width, y_2_right + 1,
+                x_2_bottom + border_radius_3 - border_radius_2 + 1, y,
+                x_2_bottom + border_radius_3 - border_radius_2 + 1, y_2_right + 1,
                 x_2_bottom + 1, y_2_right + 1
               )
             end
@@ -262,7 +262,7 @@ function gui.newObject(x, y, l, h)
         if border_radius_4 > 0 then
           love.graphics.arc(
             "fill", "pie",
-            x_1_bottom, y_2_left + 1,
+            x_1_bottom - 1, y_2_left + 1,
             border_radius_4,
             1/2*math.pi, math.pi
           )
@@ -279,10 +279,10 @@ function gui.newObject(x, y, l, h)
           else
             love.graphics.polygon(
               "fill",
-              x + border_radius_1, y,
-              x + border_radius_4, y,
-              x + border_radius_4, y_2_left + 1,
-              x + border_radius_1, y_2_left + 1
+              x + border_radius_1 - 1, y,
+              x + border_radius_4 - 1, y,
+              x + border_radius_4 - 1, y_2_left + 1,
+              x + border_radius_1 - 1, y_2_left + 1
             )
           end
         else
