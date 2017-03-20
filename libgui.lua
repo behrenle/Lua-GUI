@@ -8,6 +8,42 @@ function gui.newObject(x, y, l, h)
   -- the object:
   local object = {}
 
+  -- style
+  local default_style = {
+    x                 = x or 0,
+    y                 = y or 0,
+    l                 = l or 1,
+    h                 = h or 1,
+    visable           = true,
+    line_width_top    = 1,
+    line_width_bottom = 1,
+    line_width_left   = 1,
+    line_width_right  = 1,
+    arc_width_1       = 1,
+    arc_width_2       = 1,
+    arc_width_3       = 1,
+    arc_width_4       = 1,
+    arc_radius_1      = 0,
+    arc_radius_2      = 0,
+    arc_radius_3      = 0,
+    arc_radius_4      = 0,
+    area_color        = {32, 32, 32, 255},
+    line_color_top    = {255,255,255,255},
+    line_color_bottom = {255,255,255,255},
+    line_color_left   = {255,255,255,255},
+    line_color_right  = {255,255,255,255},
+    arc_color_1       = {255,255,255,255},
+    arc_color_2       = {255,255,255,255},
+    arc_color_3       = {255,255,255,255},
+    arc_color_4       = {255,255,255,255},
+  }
+  local hover_style   = setmetatable({}, {__index = default_style})
+  local click_style   = setmetatable({}, {__index = default_style})
+
+  -- style table
+  local style      = {}
+  local meta_style = {__index = default_style}
+  setmetatable(style, meta_style)
 
   -- attributes
   --- position and dimensions
@@ -15,7 +51,6 @@ function gui.newObject(x, y, l, h)
   local l, h    = l or 1, h or 1
   --- appearance
   local visable    = true
-  local line_width = 0
   local line_width_top    = 1
   local line_width_bottom = 1
   local line_width_left   = 1
@@ -172,14 +207,14 @@ function gui.newObject(x, y, l, h)
   -- love engine callback methods
   function object.draw()
     if visable then
-      local x_1_top    = x + border_radius_1 + line_width
-      local x_2_top    = x + l - border_radius_2 - line_width
-      local x_1_bottom = x + border_radius_4 + line_width
-      local x_2_bottom = x + l - border_radius_3 - line_width
-      local y_1_left   = y + border_radius_1 + line_width
-      local y_2_left   = y + h - border_radius_4 - line_width
-      local y_1_right  = y + border_radius_2 + line_width
-      local y_2_right  = y + h - border_radius_3 - line_width
+      local x_1_top    = x + border_radius_1
+      local x_2_top    = x + l - border_radius_2
+      local x_1_bottom = x + border_radius_4
+      local x_2_bottom = x + l - border_radius_3
+      local y_1_left   = y + border_radius_1
+      local y_2_left   = y + h - border_radius_4
+      local y_1_right  = y + border_radius_2
+      local y_2_right  = y + h - border_radius_3
 
       local x_1_main   = math.max(x_1_top, x_1_bottom)
       local x_2_main   = math.min(x_2_top, x_2_bottom)
@@ -350,7 +385,7 @@ function gui.newObject(x, y, l, h)
           love.graphics.setLineWidth(arc_width_1)
           love.graphics.arc(
             "line", "open",
-            x_1_top - line_width, y_1_left - line_width,
+            x_1_top, y_1_left,
             border_radius_1,
             math.pi, 3/2*math.pi
           )
@@ -359,7 +394,7 @@ function gui.newObject(x, y, l, h)
           love.graphics.setLineWidth(arc_width_2)
           love.graphics.arc(
             "line", "open",
-            x_2_top + line_width, y_1_right - line_width,
+            x_2_top, y_1_right,
             border_radius_2,
             3/2*math.pi, 2*math.pi
           )
@@ -368,7 +403,7 @@ function gui.newObject(x, y, l, h)
           love.graphics.setLineWidth(arc_width_3)
           love.graphics.arc(
             "line", "open",
-            x_2_bottom + line_width, y_2_right + line_width,
+            x_2_bottom, y_2_right,
             border_radius_3,
             0, 1/2*math.pi
           )
@@ -377,7 +412,7 @@ function gui.newObject(x, y, l, h)
           love.graphics.setLineWidth(arc_width_4)
           love.graphics.arc(
             "line", "open",
-            x_1_bottom - line_width, y_2_left + line_width,
+            x_1_bottom, y_2_left,
             border_radius_4,
             1/2*math.pi, math.pi
           )
