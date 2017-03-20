@@ -4,6 +4,9 @@ local function unpackColor(color)
   return color[1], color[2], color[3], color[4]
 end
 
+local style_methods = {}
+
+
 function gui.newObject(X, Y, L, H)
   -- the object:
   local object = {}
@@ -41,9 +44,12 @@ function gui.newObject(X, Y, L, H)
   }
   local hover_style   = setmetatable({}, {__index = default_style})
   local click_style   = setmetatable({}, {__index = default_style})
-  local style         = {}                        -- link to the current style talbe
+  local style         = {}                        -- address for the link to the current style table
   local meta_style    = {__index = default_style} -- sets the style-link destination
-  setmetatable(style, meta_style)
+  setmetatable(style, meta_style)                 -- creates the link
+
+  local meta_default  = {__index = style_methods} -- link to the style methods table
+  setmetatable(default_style, meta_default)       -- creates the link
 
   -- object methods
   function object.setPos(pos_x, pos_y)
