@@ -85,11 +85,6 @@ function gui.newObject(x, y, l, h)
       local x_1_main   = math.max(x_1_top, x_1_bottom)
       local x_2_main   = math.min(x_2_top, x_2_bottom)
 
-      -- main area
-      if x_1_main <= pos_x and pos_x <= x_2_main then
-        return true, "main"
-      end
-
       -- corner 1:
       if pos_x <= x_1_top and pos_y <= y_1_left then
         local dx = x_1_top - pos_x
@@ -97,6 +92,8 @@ function gui.newObject(x, y, l, h)
         local dq = dx^2 + dy^2
         if dq <= border_radius_1^2 then
           return true, "corner_1"
+        else
+          return false
         end
       end
       -- corner 2:
@@ -106,6 +103,8 @@ function gui.newObject(x, y, l, h)
         local dq = dx^2 + dy^2
         if dq <= border_radius_2^2 then
           return true, "corner_2"
+        else
+          return false
         end
       end
       -- corner_3:
@@ -113,8 +112,10 @@ function gui.newObject(x, y, l, h)
         local dx = x_2_bottom - pos_x
         local dy = y_2_right - pos_y
         local dq = dx^2 + dy^2
-        if dq <= border_radius_2^2 then
+        if dq <= border_radius_3^2 then
           return true, "corner_3"
+        else
+          return false
         end
       end
       -- corner_4:
@@ -122,40 +123,16 @@ function gui.newObject(x, y, l, h)
         local dx = x_1_bottom - pos_x
         local dy = y_2_left - pos_y
         local dq = dx^2 + dy^2
-        if dq <= border_radius_2^2 then
+        if dq <= border_radius_4^2 then
           return true, "corner_4"
-        end
-      end
-
-      -- space between corner_1 and corner_4
-      if pos_x <= math.max(x_1_top, x_1_bottom) and
-         pos_y >= y_1_left and pos_y <= y_2_left
-      then
-        if border_radius_1 == border_radius_4 then
-          return true, "corner_{1,4}:symmetric"
-        elseif border_radius_1 < border_radius_4 then
-
         else
-
+          return false
         end
       end
 
-      -- space between corner_3 and corner_4
-      if pos_x >= math.min(x_2_top, x_2_bottom) and
-         pos_y >= y_1_right and pos_y <= y_2_right
-      then
-        if border_radius_2 == border_radius_3 then
-          return true, "corner_{2,3}:symmetric"
-        elseif border_radius_2 < border_radius_3 then
-
-        else
-
-        end
-      end
-
-
-      return false
+      return true, "main"
     end
+    return false
   end
 
 
