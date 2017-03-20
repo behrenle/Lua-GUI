@@ -6,6 +6,163 @@ end
 
 local style_methods = {}
 
+-- position
+function style_methods:setPos(x, y)
+  self.x, self.y = x, y
+end
+function style_methods:getPos()
+  return self.x, self.y
+end
+
+-- dimensions
+function style_methods:setDimensions(l, h)
+  self.l, self.h = l, h
+end
+function style_methods:getDimensions()
+  return self.l, self.h
+end
+
+-- visable
+function style_methods:setVisable(state)
+  self.visable = state
+end
+function style_methods:getVisable()
+  return self.visable
+end
+
+-- line_width
+function style_methods:setLineWidth(...)
+  local widths = {...}
+  if #widths == 1 then
+    self.line_width_top    = widths[1] or 1
+    self.line_width_bottom = widths[1] or 1
+    self.line_width_left   = widths[1] or 1
+    self.line_width_right  = widths[1] or 1
+  else
+    self.line_width_top    = widths[1] or 1
+    self.line_width_bottom = widths[2] or 1
+    self.line_width_left   = widths[3] or 1
+    self.line_width_right  = widths[4] or 1
+  end
+end
+function style_methods:getLineWidth()
+  return self.line_width_top,
+         self.line_width_bottom,
+         self.line_width_left,
+         self.line_width_right
+end
+
+-- arc width
+function style_methods:setArcWidth(...)
+  local widths = {...}
+  if #widths == 1 then
+    self.arc_width_1 = widths[1] or 1
+    self.arc_width_2 = widths[1] or 1
+    self.arc_width_3 = widths[1] or 1
+    self.arc_width_4 = widths[1] or 1
+  else
+    self.arc_width_1 = widths[1] or 1
+    self.arc_width_2 = widths[2] or 1
+    self.arc_width_3 = widths[3] or 1
+    self.arc_width_4 = widths[4] or 1
+  end
+end
+function style_methods:getArcWidth()
+  return self.arc_width_1,
+         self.arc_width_2,
+         self.arc_width_3,
+         self.arc_width_4
+end
+
+-- arc radius
+function style_methods:setArcRadius(...)
+  local rs = {...}
+  if #rs == 1 then
+    self.arc_radius_1 = rs[1] or 1
+    self.arc_radius_2 = rs[1] or 1
+    self.arc_radius_3 = rs[1] or 1
+    self.arc_radius_4 = rs[1] or 1
+  else
+    self.arc_radius_1 = rs[1] or 1
+    self.arc_radius_2 = rs[2] or 1
+    self.arc_radius_3 = rs[3] or 1
+    self.arc_radius_4 = rs[4] or 1
+  end
+end
+function style_methods:getArcRadius()
+  return self.arc_Radius_1,
+         self.arc_Radius_2,
+         self.arc_Radius_3,
+         self.arc_Radius_4
+end
+
+-- area color
+function style_methods:setAreaColor(color_table)
+  self.area_color = color_table
+end
+function style_methods:getAreaColor()
+  return self.area_color
+end
+
+-- line color
+function style_methods:setLineColor(...)
+  local color_tables = {...}
+  if #color_tables == 1 then
+    self.line_color_top    = color_tables[1] or {255,255,255,255}
+    self.line_color_right  = color_tables[1] or {255,255,255,255}
+    self.line_color_bottom = color_tables[1] or {255,255,255,255}
+    self.line_color_left   = color_tables[1] or {255,255,255,255}
+  else
+    self.line_color_top    = color_tables[1] or {255,255,255,255}
+    self.line_color_right  = color_tables[2] or {255,255,255,255}
+    self.line_color_bottom = color_tables[3] or {255,255,255,255}
+    self.line_color_left   = color_tables[4] or {255,255,255,255}
+  end
+end
+function style_methods:getLineColor()
+  return self.line_color_top,
+         self.line_color_right,
+         self.line_color_bottom,
+         self.line_color_left
+end
+
+-- arc color
+function style_methods:setArcColor(...)
+  local color_tables = {...}
+  if #color_tables == 1 then
+    self.arc_color_1 = color_tables[1] or {255,255,255,255}
+    self.arc_color_2 = color_tables[1] or {255,255,255,255}
+    self.arc_color_3 = color_tables[1] or {255,255,255,255}
+    self.arc_color_4 = color_tables[1] or {255,255,255,255}
+  else
+    self.arc_color_1 = color_tables[1] or {255,255,255,255}
+    self.arc_color_2 = color_tables[2] or {255,255,255,255}
+    self.arc_color_3 = color_tables[3] or {255,255,255,255}
+    self.arc_color_4 = color_tables[4] or {255,255,255,255}
+  end
+end
+function style_methods:getLineColor()
+  return self.arc_color_1,
+         self.arc_color_2,
+         self.arc_color_3,
+         self.arc_color_4
+end
+
+-- set border
+function style_methods:setBorder(state)
+  self.draw_border = state
+end
+function style_methods:getBorder()
+  return self.draw_border
+end
+
+-- set area
+function style_methods:setArea(state)
+  self.draw_area = state
+end
+function style_methods:getArea(state)
+  return self.draw_area
+end
 
 function gui.newObject(X, Y, L, H)
   -- the object:
@@ -51,70 +208,18 @@ function gui.newObject(X, Y, L, H)
   local meta_default  = {__index = style_methods} -- link to the style methods table
   setmetatable(default_style, meta_default)       -- creates the link
 
-  -- object methods
-  function object.setPos(pos_x, pos_y)
-    default_style.x, default_style.y = pos_x, pos_y
+  -- get styles
+  function object.getDefaultStyle()
+    return default_style
   end
-  function object.setDimensions(length, height)
-    default_style.l, default_style.h = length, height
+  function object.getHoverStyle()
+    return hover_style
   end
-  function object.setVisable(v)
-    visable = v
+  function object.getClickStyle()
+    return click_style
   end
-  function object.setLineWidth(...)
-    local n = {...}
-    if #n == 1 then
-      default_style.line_width_top    = n[1]
-      default_style.line_width_right  = n[1]
-      default_style.line_width_bottom = n[1]
-      default_style.line_width_left   = n[1]
-    else
-      default_style.line_width_top    = n[1] or 1
-      default_style.line_width_right  = n[2] or 1
-      default_style.line_width_bottom = n[3] or 1
-      default_style.line_width_left   = n[4] or 1
-    end
-  end
-  function object.setArcWidth(...)
-    local n = {...}
-    if #n == 1 then
-      style.arc_width_1 = n[1]
-      style.arc_width_2 = n[1]
-      style.arc_width_3 = n[1]
-      style.arc_width_4 = n[1]
-    else
-      style.arc_width_1 = n[1] or 1
-      style.arc_width_2 = n[2] or 1
-      style.arc_width_3 = n[3] or 1
-      style.arc_width_4 = n[4] or 1
-    end
-  end
-  function object.drawBorder(b)
-    default_style.draw_border = b
-  end
-  function object.drawArea(a)
-    default_style.draw_area = a
-  end
-  function object.setAreaColor(r, g, b, a)
-    default_style.area_color = {r, g, b, a}
-  end
-  function object.setBorderColor(r, g, b, a)
-    border_color = {r, g, b, a}
-  end
-  function object.setBorderRadius(...)
-    local r = {...}
-    if #r == 1 then
-      default_style.arc_radius_1 = r[1]
-      default_style.arc_radius_2 = r[1]
-      default_style.arc_radius_3 = r[1]
-      default_style.arc_radius_4 = r[1]
-    else
-      default_style.arc_radius_1 = r[1] or default_style.arc_radius_1
-      default_style.arc_radius_2 = r[2] or default_style.arc_radius_2
-      default_style.arc_radius_3 = r[3] or default_style.arc_radius_3
-      default_style.arc_radius_4 = r[4] or default_style.arc_radius_4
-    end
-  end
+
+  -- other object methods
   function object.isInside(pos_x, pos_y)
     -- general hitbox
     if style.x <= pos_x and pos_x < style.x + style.l and
@@ -230,8 +335,8 @@ function gui.newObject(X, Y, L, H)
               "fill",
               style.x + style.arc_radius_4 - 1, y_1_left - 1,
               style.x + style.arc_radius_1 - 1, y_1_left - 1,
-              style.x + style.arc_radius_1 - 1, style.y + h,
-              style.x + style.arc_radius_4 - 1, style.y + h
+              style.x + style.arc_radius_1 - 1, style.y + style.h,
+              style.x + style.arc_radius_4 - 1, style.y + style.h
             )
           end
         end
