@@ -164,6 +164,16 @@ function style_methods:getArea(state)
   return self.draw_area
 end
 
+-- border
+function style_methods:setBorderWidth(n)
+  self:setLineWidth(n)
+  self:setArcWidth(n)
+end
+function style_methods:setBorderColor(color_table)
+  self:setLineColor(color_table)
+  self:setArcColor(color_table)
+end
+
 function gui.newObject(X, Y, L, H)
   -- the object:
   local object = {}
