@@ -17,9 +17,9 @@ function gui.newObject(x, y, l, h)
   local visable    = true
   local line_width = 0
   local line_width_top    = 1
-  local line_width_bottom = 2
-  local line_width_left   = 3
-  local line_width_right  = 4
+  local line_width_bottom = 1
+  local line_width_left   = 1
+  local line_width_right  = 1
   local arc_width_1 = 1
   local arc_width_2 = 1
   local arc_width_3 = 1
@@ -301,16 +301,16 @@ function gui.newObject(x, y, l, h)
         love.graphics.setColor(unpackColor(border_color))
 
         love.graphics.setLineWidth(line_width_top)
-        love.graphics.line(x_1_top, y, x_2_top, y)
+        love.graphics.line(x_1_top + 0.75, y, x_2_top - 0.75, y)
 
         love.graphics.setLineWidth(line_width_bottom)
-        love.graphics.line(x_1_bottom, y + h, x_2_bottom, y + h)
+        love.graphics.line(x_1_bottom + 0.75, y + h, x_2_bottom - 0.75, y + h)
 
         love.graphics.setLineWidth(line_width_left)
-        love.graphics.line(x, y_1_left, x, y_2_left)
+        love.graphics.line(x, y_1_left + 0.75, x, y_2_left - 0.75)
 
         love.graphics.setLineWidth(line_width_right)
-        love.graphics.line(x + l, y_1_right, x + l, y_2_right)
+        love.graphics.line(x + l, y_1_right + 0.75, x + l, y_2_right - 0.75)
 
         if border_radius_1 > 0 then
           love.graphics.setLineWidth(arc_width_1)
