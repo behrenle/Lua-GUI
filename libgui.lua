@@ -50,15 +50,29 @@ function gui.newObject(x, y, l, h)
   function object.setLineWidth(...)
     local n = {...}
     if #n == 1 then
-      line_width_top    = n[1] or 1
-      line_width_bottom = n[1] or 1
-      line_width_left   = n[1] or 1
-      line_width_right  = n[1] or 1
+      line_width_top    = n[1]
+      line_width_right  = n[1]
+      line_width_bottom = n[1]
+      line_width_left   = n[1]
     else
       line_width_top    = n[1] or 1
-      line_width_bottom = n[2] or 1
-      line_width_left   = n[3] or 1
-      line_width_right  = n[4] or 1
+      line_width_right  = n[2] or 1
+      line_width_bottom = n[3] or 1
+      line_width_left   = n[4] or 1
+    end
+  end
+  function object.setArcWidth(...)
+    local n = {...}
+    if #n == 1 then
+      arc_width_1 = n[1]
+      arc_width_2 = n[1]
+      arc_width_3 = n[1]
+      arc_width_4 = n[1]
+    else
+      arc_width_1 = n[1] or 1
+      arc_width_2 = n[2] or 1
+      arc_width_3 = n[3] or 1
+      arc_width_4 = n[4] or 1
     end
   end
   function object.drawBorder(b)
@@ -310,18 +324,27 @@ function gui.newObject(x, y, l, h)
       -- border
       if draw_border then
         love.graphics.setColor(unpackColor(border_color))
+        love.graphics.setLineStyle("smooth")
 
-        love.graphics.setLineWidth(line_width_top)
-        love.graphics.line(x_1_top + 0.75, y, x_2_top - 0.75, y)
+        if line_width_top > 0 then
+          love.graphics.setLineWidth(line_width_top)
+          love.graphics.line(x_1_top + 0.75, y, x_2_top - 0.75, y)
+        end
 
-        love.graphics.setLineWidth(line_width_bottom)
-        love.graphics.line(x_1_bottom + 0.75, y + h, x_2_bottom - 0.75, y + h)
+        if line_width_bottom > 0 then
+          love.graphics.setLineWidth(line_width_bottom)
+          love.graphics.line(x_1_bottom + 0.75, y + h, x_2_bottom - 0.75, y + h)
+        end
 
-        love.graphics.setLineWidth(line_width_left)
-        love.graphics.line(x, y_1_left + 0.75, x, y_2_left - 0.75)
+        if line_width_left > 0 then
+          love.graphics.setLineWidth(line_width_left)
+          love.graphics.line(x, y_1_left + 0.75, x, y_2_left - 0.75)
+        end
 
-        love.graphics.setLineWidth(line_width_right)
-        love.graphics.line(x + l, y_1_right + 0.75, x + l, y_2_right - 0.75)
+        if line_width_right > 0 then
+          love.graphics.setLineWidth(line_width_right)
+          love.graphics.line(x + l, y_1_right + 0.75, x + l, y_2_right - 0.75)
+        end
 
         if border_radius_1 > 0 then
           love.graphics.setLineWidth(arc_width_1)
