@@ -127,6 +127,33 @@ function gui.newObject(x, y, l, h)
         end
       end
 
+      -- space between corner_1 and corner_4
+      if pos_x <= math.max(x_1_top, x_1_bottom) and
+         pos_y >= y_1_left and pos_y <= y_2_left
+      then
+        if border_radius_1 == border_radius_4 then
+          return true, "corner_{1,4}:symmetric"
+        elseif border_radius_1 < border_radius_4 then
+
+        else
+
+        end
+      end
+
+      -- space between corner_3 and corner_4
+      if pos_x >= math.min(x_2_top, x_2_bottom) and
+         pos_y >= y_1_right and pos_y <= y_2_right
+      then
+        if border_radius_2 == border_radius_3 then
+          return true, "corner_{2,3}:symmetric"
+        elseif border_radius_2 < border_radius_3 then
+
+        else
+
+        end
+      end
+
+
       return false
     end
   end
