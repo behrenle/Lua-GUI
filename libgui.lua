@@ -299,6 +299,15 @@ function gui.newObject(X, Y, L, H)
 
 
   -- love engine callback methods
+  function object.update(dt)
+    local x, y = love.mouse.getPosition()
+    if object.isInside(x, y) then
+      meta_style.__index = hover_style
+    else
+      meta_style.__index = default_style
+    end
+  end
+
   function object.draw()
     if style.visable then
       local x_1_top    = style.x + style.arc_radius_1
