@@ -35,14 +35,14 @@ function style_methods:setLineWidth(...)
   local widths = {...}
   if #widths == 1 then
     self.line_width_top    = widths[1] or 1
+    self.line_width_right  = widths[1] or 1
     self.line_width_bottom = widths[1] or 1
     self.line_width_left   = widths[1] or 1
-    self.line_width_right  = widths[1] or 1
   else
     self.line_width_top    = widths[1] or 1
-    self.line_width_bottom = widths[2] or 1
-    self.line_width_left   = widths[3] or 1
-    self.line_width_right  = widths[4] or 1
+    self.line_width_right  = widths[2] or 1
+    self.line_width_bottom = widths[3] or 1
+    self.line_width_left   = widths[4] or 1
   end
 end
 function style_methods:getLineWidth()
@@ -212,9 +212,9 @@ function gui.newObject(X, Y, L, H)
 
   -- other style
   local hover_style        = setmetatable({}, {__index = default_style})
-  local left_click_style   = setmetatable({}, {__index = default_style})
-  local right_click_style  = setmetatable({}, {__index = left_click_style})
-  local middle_click_style = setmetatable({}, {__index = left_click_style})
+  local left_click_style   = setmetatable({}, {__index = hover_style})
+  local right_click_style  = setmetatable({}, {__index = hover_style})
+  local middle_click_style = setmetatable({}, {__index = hover_style})
 
   -- current style
   local style              = {}                        -- address for the link to the current style table
