@@ -178,7 +178,7 @@ function gui.newObject(X, Y, L, H)
   -- the object:
   local object = {}
 
-  -- style
+  -- default style
   local default_style = {
     x                 = X or 0,
     y                 = Y or 0,
@@ -209,14 +209,21 @@ function gui.newObject(X, Y, L, H)
     arc_color_3       = {255,255,255,255},
     arc_color_4       = {255,255,255,255},
   }
-  local hover_style   = setmetatable({}, {__index = default_style})
-  local click_style   = setmetatable({}, {__index = default_style})
-  local style         = {}                        -- address for the link to the current style table
-  local meta_style    = {__index = default_style} -- sets the style-link destination
-  setmetatable(style, meta_style)                 -- creates the link
 
-  local meta_default  = {__index = style_methods} -- link to the style methods table
-  setmetatable(default_style, meta_default)       -- creates the link
+  -- other style
+  local hover_style        = setmetatable({}, {__index = default_style})
+  local left_click_style   = setmetatable({}, {__index = default_style})
+  local right_click_style  = setmetatable({}, {__index = left_click_style})
+  local middle_click_style = setmetatable({}, {__index = left_click_style})
+
+  -- current style
+  local style              = {}                        -- address for the link to the current style table
+  local meta_style         = {__index = default_style} -- sets the style-link destination
+  setmetatable(style, meta_style)                      -- creates the link
+
+  -- adding style methods
+  local meta_default  = {__index = style_methods}      -- link to the style methods table
+  setmetatable(default_style, meta_default)            -- creates the link
 
   -- get styles
   function object.getDefaultStyle()
@@ -225,8 +232,14 @@ function gui.newObject(X, Y, L, H)
   function object.getHoverStyle()
     return hover_style
   end
-  function object.getClickStyle()
-    return click_style
+  function object.getLeftClickStyle()
+    return left_click_style
+  end
+  function object.getRightClickStyle()
+    return right_click_style
+  end
+  function object.getMiddleClickStyle()
+    return middle_click_style
   end
 
   -- other object methods
@@ -302,7 +315,15 @@ function gui.newObject(X, Y, L, H)
   function object.update(dt)
     local x, y = love.mouse.getPosition()
     if object.isInside(x, y) then
-      meta_style.__index = hover_style
+      if love.mouse.isDown(1) then
+        meta_style.__index = left_click_style
+      elseif love.mouse.isDown(2) then
+        meta_style.__index = right_click_style
+      elseif love.mouse.isDown(3) then
+        meta_style.__index = middle_click_style
+      else
+        meta_style.__index = hover_style
+      end
     else
       meta_style.__index = default_style
     end
