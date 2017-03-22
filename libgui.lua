@@ -239,6 +239,33 @@ function gui.newObject(X, Y, L, H)
   function object.getStyle()
     return style
   end
+  function object.setStyles(s)
+    if s["default_style"] then
+      for i, v in pairs(s["default_style"]) do
+        default_style[i] = v
+      end
+    end
+    if s["hover_style"] then
+      for i, v in pairs(s["hover_style"]) do
+        hover_style[i] = v
+      end
+    end
+    if s["left_click_style"] then
+      for i, v in pairs(s["left_click_style"]) do
+        left_click_style[i] = v
+      end
+    end
+    if s["right_click_style"] then
+      for i, v in pairs(s["right_click_style"]) do
+        right_click_style[i] = v
+      end
+    end
+    if s["middle_click_style"] then
+      for i, v in pairs(s["middle_click_style"]) do
+        middle_click_style[i] = v
+      end
+    end
+  end
   function object.getDefaultStyle()
     return default_style
   end
