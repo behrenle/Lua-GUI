@@ -1,6 +1,6 @@
 local gui = {}
 
-local function unpackColor(color)
+function gui.unpackColor(color)
   return color[1], color[2], color[3], color[4]
 end
 
@@ -368,7 +368,7 @@ function gui.newObject(X, Y, L, H)
 
       -- area
       if style.draw_area then
-        love.graphics.setColor(unpackColor(style.area_color))
+        love.graphics.setColor(gui.unpackColor(style.area_color))
 
         love.graphics.polygon(
           "fill",
@@ -507,7 +507,7 @@ function gui.newObject(X, Y, L, H)
       if style.draw_border then
         love.graphics.setLineStyle("smooth")
 
-        love.graphics.setColor(unpackColor(style.line_color_top))
+        love.graphics.setColor(gui.unpackColor(style.line_color_top))
         if style.line_width_top > 0 then
           love.graphics.setLineWidth(style.line_width_top)
           love.graphics.line(
@@ -516,7 +516,7 @@ function gui.newObject(X, Y, L, H)
           )
         end
 
-        love.graphics.setColor(unpackColor(style.line_color_bottom))
+        love.graphics.setColor(gui.unpackColor(style.line_color_bottom))
         if style.line_width_bottom > 0 then
           love.graphics.setLineWidth(style.line_width_bottom)
           love.graphics.line(
@@ -525,7 +525,7 @@ function gui.newObject(X, Y, L, H)
           )
         end
 
-        love.graphics.setColor(unpackColor(style.line_color_left))
+        love.graphics.setColor(gui.unpackColor(style.line_color_left))
         if style.line_width_left > 0 then
           love.graphics.setLineWidth(style.line_width_left)
           love.graphics.line(
@@ -534,7 +534,7 @@ function gui.newObject(X, Y, L, H)
           )
         end
 
-        love.graphics.setColor(unpackColor(style.line_color_right))
+        love.graphics.setColor(gui.unpackColor(style.line_color_right))
         if style.line_width_right > 0 then
           love.graphics.setLineWidth(style.line_width_right)
           love.graphics.line(
@@ -543,7 +543,7 @@ function gui.newObject(X, Y, L, H)
           )
         end
 
-        love.graphics.setColor(unpackColor(style.arc_color_1))
+        love.graphics.setColor(gui.unpackColor(style.arc_color_1))
         if style.arc_radius_1 > 0 then
           love.graphics.setLineWidth(style.arc_width_1)
           love.graphics.arc(
@@ -554,7 +554,7 @@ function gui.newObject(X, Y, L, H)
           )
         end
 
-        love.graphics.setColor(unpackColor(style.arc_color_2))
+        love.graphics.setColor(gui.unpackColor(style.arc_color_2))
         if style.arc_radius_2 > 0 then
           love.graphics.setLineWidth(style.arc_width_2)
           love.graphics.arc(
@@ -565,7 +565,7 @@ function gui.newObject(X, Y, L, H)
           )
         end
 
-        love.graphics.setColor(unpackColor(style.arc_color_3))
+        love.graphics.setColor(gui.unpackColor(style.arc_color_3))
         if style.arc_radius_3 > 0 then
           love.graphics.setLineWidth(style.arc_width_3)
           love.graphics.arc(
@@ -576,7 +576,7 @@ function gui.newObject(X, Y, L, H)
           )
         end
 
-        love.graphics.setColor(unpackColor(style.arc_color_4))
+        love.graphics.setColor(gui.unpackColor(style.arc_color_4))
         if style.arc_radius_4 > 0 then
           love.graphics.setLineWidth(style.arc_width_4)
           love.graphics.arc(
