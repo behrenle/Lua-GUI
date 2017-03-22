@@ -294,19 +294,30 @@ function gui.newObject(X, Y, L, H)
   end
 
   -- other object methods
+  function object.getAbsolutePosition()
+    if object.parent then
+      local px, py = object.parent().getAbsolutePosition()
+      return px + style.x, py + style.y
+    else
+      return style.x, style.y
+    end
+  end
   function object.isInside(pos_x, pos_y)
+    -- position and dimensions data
+    local x, y = object.getAbsolutePosition()
+    local l, h = style.l, style.h
     -- general hitbox
     if style.x <= pos_x and pos_x < style.x + style.l and
        style.y <= pos_y and pos_y < style.y + style.h
     then
-      local x_1_top    = style.x + style.arc_radius_1
-      local x_2_top    = style.x + style.l - style.arc_radius_2
-      local x_1_bottom = style.x + style.arc_radius_4
-      local x_2_bottom = style.x + style.l - style.arc_radius_3
-      local y_1_left   = style.y + style.arc_radius_1
-      local y_2_left   = style.y + style.h - style.arc_radius_4
-      local y_1_right  = style.y + style.arc_radius_2
-      local y_2_right  = style.y + style.h - style.arc_radius_3
+      local x_1_top    = x + style.arc_radius_1
+      local x_2_top    = x + l - style.arc_radius_2
+      local x_1_bottom = x + style.arc_radius_4
+      local x_2_bottom = x + l - style.arc_radius_3
+      local y_1_left   = y + style.arc_radius_1
+      local y_2_left   = y + h - style.arc_radius_4
+      local y_1_right  = y + style.arc_radius_2
+      local y_2_right  = y + h - style.arc_radius_3
 
       local x_1_main   = math.max(x_1_top, x_1_bottom)
       local x_2_main   = math.min(x_2_top, x_2_bottom)
@@ -434,14 +445,19 @@ function gui.newObject(X, Y, L, H)
 
   function object.draw()
     if style.visable then
-      local x_1_top    = style.x + style.arc_radius_1
-      local x_2_top    = style.x + style.l - style.arc_radius_2
-      local x_1_bottom = style.x + style.arc_radius_4
-      local x_2_bottom = style.x + style.l - style.arc_radius_3
-      local y_1_left   = style.y + style.arc_radius_1
-      local y_2_left   = style.y + style.h - style.arc_radius_4
-      local y_1_right  = style.y + style.arc_radius_2
-      local y_2_right  = style.y + style.h - style.arc_radius_3
+      -- position and dimensions data
+      local x, y = object.getAbsolutePosition()
+      local l, h = style.l, style.h
+
+      -- temp variables
+      local x_1_top    = x + style.arc_radius_1
+      local x_2_top    = x + l - style.arc_radius_2
+      local x_1_bottom = x + style.arc_radius_4
+      local x_2_bottom = x + l - style.arc_radius_3
+      local y_1_left   = y + style.arc_radius_1
+      local y_2_left   = y + h - style.arc_radius_4
+      local y_1_right  = y + style.arc_radius_2
+      local y_2_right  = y + h - style.arc_radius_3
 
       local x_1_main   = math.max(x_1_top, x_1_bottom)
       local x_2_main   = math.min(x_2_top, x_2_bottom)
@@ -452,10 +468,10 @@ function gui.newObject(X, Y, L, H)
 
         love.graphics.polygon(
           "fill",
-          x_1_main - 1, style.y,
-          x_2_main + 1, style.y,
-          x_2_main + 1, style.y + style.h,
-          x_1_main - 1, style.y + style.h
+          x_1_main - 1, y,
+          x_2_main + 1, y,
+          x_2_main + 1, y + h,
+          x_1_main - 1, y + h
         )
 
         if style.arc_radius_1 > 0 then
@@ -468,18 +484,18 @@ function gui.newObject(X, Y, L, H)
           if style.arc_radius_1 < style.arc_radius_4 then
             love.graphics.polygon(
               "fill",
-              style.x, y_1_left - 1,
-              style.x + style.arc_radius_1 - 1, y_1_left - 1,
-              style.x + style.arc_radius_1 - 1, y_2_left + 1,
-              style.x, y_2_left + 1
+              x, y_1_left - 1,
+              x + style.arc_radius_1 - 1, y_1_left - 1,
+              x + style.arc_radius_1 - 1, y_2_left + 1,
+              x, y_2_left + 1
             )
           else
             love.graphics.polygon(
               "fill",
-              style.x + style.arc_radius_4 - 1, y_1_left - 1,
-              style.x + style.arc_radius_1 - 1, y_1_left - 1,
-              style.x + style.arc_radius_1 - 1, style.y + style.h,
-              style.x + style.arc_radius_4 - 1, style.y + style.h
+              x + style.arc_radius_4 - 1, y_1_left - 1,
+              x + style.arc_radius_1 - 1, y_1_left - 1,
+              x + style.arc_radius_1 - 1, y + h,
+              x + style.arc_radius_4 - 1, y + h
             )
           end
         end
@@ -505,7 +521,7 @@ function gui.newObject(X, Y, L, H)
               x_2_top + 1, y_1_right - 1,
               x_2_top + style.arc_radius_2 - style.arc_radius_3 + 1, y_1_right - 1,
               x_2_top + style.arc_radius_2 - style.arc_radius_3 + 1, style.y + style.h,
-              x_2_top + 1, style.y + style.h
+              x_2_top + 1, y + h
             )
           end
         end
@@ -529,8 +545,8 @@ function gui.newObject(X, Y, L, H)
             else
               love.graphics.polygon(
                 "fill",
-                x_2_bottom + 1, style.y,
-                x_2_bottom + style.arc_radius_3 - style.arc_radius_2 + 1, style.y,
+                x_2_bottom + 1, y,
+                x_2_bottom + style.arc_radius_3 - style.arc_radius_2 + 1, y,
                 x_2_bottom + style.arc_radius_3 - style.arc_radius_2 + 1, y_2_right + 1,
                 x_2_bottom + 1, y_2_right + 1
               )
@@ -539,8 +555,8 @@ function gui.newObject(X, Y, L, H)
             love.graphics.polygon(
               "fill",
               x_2_top + 1, y_1_right - 1,
-              style.x + style.l, y_1_right - 1,
-              style.x + style.l, y_2_right + 1,
+              x + l, y_1_right - 1,
+              x + l, y_2_right + 1,
               x_2_top + 1, y_2_right + 1
             )
           end
@@ -558,27 +574,27 @@ function gui.newObject(X, Y, L, H)
           if style.arc_radius_4 < style.arc_radius_1 then
             love.graphics.polygon(
               "fill",
-              style.x + 1, y_1_left - 1,
-              style.x + style.arc_radius_4 - 1, y_1_left - 1,
-              style.x + style.arc_radius_4 - 1, y_2_left + 1,
-              style.x, y_2_left + 1
+              x + 1, y_1_left - 1,
+              x + style.arc_radius_4 - 1, y_1_left - 1,
+              x + style.arc_radius_4 - 1, y_2_left + 1,
+              x, y_2_left + 1
             )
           else
             love.graphics.polygon(
               "fill",
-              style.x + style.arc_radius_1 - 1, style.y,
-              style.x + style.arc_radius_4 - 1, style.y,
-              style.x + style.arc_radius_4 - 1, y_2_left + 1,
-              style.x + style.arc_radius_1 - 1, y_2_left + 1
+              x + style.arc_radius_1 - 1, y,
+              x + style.arc_radius_4 - 1, y,
+              x + style.arc_radius_4 - 1, y_2_left + 1,
+              x + style.arc_radius_1 - 1, y_2_left + 1
             )
           end
         else
           love.graphics.polygon(
             "fill",
-            style.x, y_1_left - 1,
-            style.x + style.arc_radius_1 - 1, y_1_left - 1,
-            style.x + style.arc_radius_1 - 1, y_2_left + 1,
-            style.x, y_2_left + 1
+            x, y_1_left - 1,
+            x + style.arc_radius_1 - 1, y_1_left - 1,
+            x + style.arc_radius_1 - 1, y_2_left + 1,
+            x, y_2_left + 1
           )
         end
       end
@@ -591,8 +607,8 @@ function gui.newObject(X, Y, L, H)
         if style.line_width_top > 0 then
           love.graphics.setLineWidth(style.line_width_top)
           love.graphics.line(
-            x_1_top + 0.75, style.y,
-            x_2_top - 0.75, style.y
+            x_1_top + 0.75, y,
+            x_2_top - 0.75, y
           )
         end
 
@@ -600,8 +616,8 @@ function gui.newObject(X, Y, L, H)
         if style.line_width_bottom > 0 then
           love.graphics.setLineWidth(style.line_width_bottom)
           love.graphics.line(
-            x_1_bottom + 0.75, style.y + style.h,
-            x_2_bottom - 0.75, style.y + style.h
+            x_1_bottom + 0.75, y + h,
+            x_2_bottom - 0.75, y + h
           )
         end
 
@@ -609,8 +625,8 @@ function gui.newObject(X, Y, L, H)
         if style.line_width_left > 0 then
           love.graphics.setLineWidth(style.line_width_left)
           love.graphics.line(
-            style.x, y_1_left + 0.75,
-            style.x, y_2_left - 0.75
+            x, y_1_left + 0.75,
+            x, y_2_left - 0.75
           )
         end
 
@@ -618,8 +634,8 @@ function gui.newObject(X, Y, L, H)
         if style.line_width_right > 0 then
           love.graphics.setLineWidth(style.line_width_right)
           love.graphics.line(
-            style.x + style.l, y_1_right + 0.75,
-            style.x + style.l, y_2_right - 0.75
+            x + l, y_1_right + 0.75,
+            x + l, y_2_right - 0.75
           )
         end
 
