@@ -211,6 +211,7 @@ function gui.newObject(X, Y, L, H)
     arc_color_2       = {255,255,255,255},
     arc_color_3       = {255,255,255,255},
     arc_color_4       = {255,255,255,255},
+    text_color        = {255,255,255,255},
   }
 
   -- other style
@@ -349,6 +350,11 @@ function gui.newObject(X, Y, L, H)
       end
     else
       meta_style.__index = default_style
+    end
+    for _, obj in pairs(objects) do
+      if type(obj.update) == "function" then
+        obj.update(dt)
+      end
     end
   end
 
