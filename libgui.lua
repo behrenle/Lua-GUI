@@ -358,6 +358,53 @@ function gui.newObject(X, Y, L, H)
     end
   end
 
+  function object.mousepressed(x, y, b)
+    if object.isInside(x, y) then
+      if b == 1 and type(object.click) == "function" then
+        object.click()
+      end
+      for _, obj in pairs(objects) do
+        if type(obj.mousepressed) == "function" then
+          obj.mousepressed(x, y, b)
+        end
+      end
+    end
+  end
+
+  function object.mousereleased(x, y, b)
+    if object.isInside(x, y) then
+      for _, obj in pairs(objects) do
+        if type(obj.mousereleased) == "function" then
+          obj.mousereleased(x, y, b)
+        end
+      end
+    end
+  end
+
+  function object.keypressed(key)
+    for _, obj in pairs(objects) do
+      if type(object.keypressed) == "function" then
+        object.keypressed(key)
+      end
+    end
+  end
+
+  function object.keyreleased(key)
+    for _, obj in pairs(objects) do
+      if type(object.released) == "function" then
+        object.keyreleased(key)
+      end
+    end
+  end
+
+  function object.textinput(text)
+    for _, obj in pairs(objects) do
+      if type(obj.textinput) == "function" then
+        obj.textinput(text)
+      end
+    end
+  end
+
   function object.draw()
     if style.visable then
       local x_1_top    = style.x + style.arc_radius_1
