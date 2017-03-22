@@ -225,10 +225,19 @@ function gui.newObject(X, Y, L, H)
   setmetatable(style, meta_style)                      -- creates the link
 
   -- adding style methods
-  local meta_default  = {__index = style_methods}      -- link to the style methods table
+  local meta_default  = {
+    __index     = style_methods,
+    __newindex  = function()
+      error("style is read-only")
+    end,
+    __metatable = false
+  }                                                    -- link to the style methods table
   setmetatable(default_style, meta_default)            -- creates the link
 
   -- get styles
+  function object.getStyle()
+    return style
+  end
   function object.getDefaultStyle()
     return default_style
   end
