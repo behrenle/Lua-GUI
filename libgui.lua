@@ -578,6 +578,11 @@ function gui.newObject(X, Y, L, H)
           )
         end
       end
+      for _, obj in pairs(objects) do
+        if type(obj.draw) == "function" then
+          obj.draw()
+        end
+      end
     end
   end
 
