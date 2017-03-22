@@ -176,7 +176,10 @@ end
 
 function gui.newObject(X, Y, L, H)
   -- the object:
-  local object = {}
+  local object  = {}
+
+  -- subobjects
+  local objects = {}
 
   -- default style
   local default_style = {
@@ -240,6 +243,17 @@ function gui.newObject(X, Y, L, H)
   end
   function object.getMiddleClickStyle()
     return middle_click_style
+  end
+
+  -- sub object methods
+  function object.getObjects()
+    return objects
+  end
+  function object.insertObject(obj)
+    function obj.parent()
+      return object
+    end
+    table.insert(objects, obj)
   end
 
   -- other object methods
