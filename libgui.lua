@@ -307,8 +307,8 @@ function gui.newObject(X, Y, L, H)
     local x, y = object.getAbsolutePosition()
     local l, h = style.l, style.h
     -- general hitbox
-    if style.x <= pos_x and pos_x < style.x + style.l and
-       style.y <= pos_y and pos_y < style.y + style.h
+    if x <= pos_x and pos_x < x + l and
+       y <= pos_y and pos_y < y + h
     then
       local x_1_top    = x + style.arc_radius_1
       local x_2_top    = x + l - style.arc_radius_2
