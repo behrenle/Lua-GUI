@@ -1,4 +1,4 @@
-local gui = {}
+gui = {}
 
 function gui.unpackColor(color)
   return color[1], color[2], color[3], color[4]
@@ -212,6 +212,8 @@ function gui.newObject(X, Y, L, H)
     arc_color_3       = {255,255,255,255},
     arc_color_4       = {255,255,255,255},
     text_color        = {255,255,255,255},
+    text_align        = "center",
+    font              = love.graphics.newFont(24),
   }
 
   -- other style
@@ -693,5 +695,3 @@ function gui.newObject(X, Y, L, H)
 
   return object
 end
-
-return gui
