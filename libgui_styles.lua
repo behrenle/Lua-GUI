@@ -2,10 +2,21 @@ if not gui then
   gui = {}
 end
 
+-- image style
+gui.image_style  = {
+  default_style  = {
+    draw_area    = false,
+    arc_radius_1 = 10,
+    arc_radius_2 = 10,
+    arc_radius_3 = 10,
+    arc_radius_4 = 10,
+  }
+}
+
 -- slider style
 gui.slider_style = {
-  default_style = {
-    draw_area   = false,
+  default_style  = {
+    draw_area    = false,
     arc_radius_1 = 10,
     arc_radius_2 = 10,
     arc_radius_3 = 10,
