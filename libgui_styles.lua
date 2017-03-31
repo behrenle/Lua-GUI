@@ -2,6 +2,13 @@ if not gui then
   gui = {}
 end
 
+-- slider style
+gui.slider_style = {
+  default_style = {
+    draw_area   = false,
+  }
+}
+
 -- label style
 gui.label_style = {
   default_style = {
