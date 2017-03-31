@@ -2,6 +2,10 @@ if not gui then
   gui = {}
 end
 
+if not utf8 then
+  utf8 = require("utf8")
+end
+
 function gui.unpackColor(color)
   return color[1], color[2], color[3], color[4]
 end

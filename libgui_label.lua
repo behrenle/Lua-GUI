@@ -17,17 +17,23 @@ function gui.newLabel(x, y, l, h, text)
 
   local text_obj = {}
   function text_obj.draw()
-    local style = label.getStyle()
-    local x, y  = label.getAbsolutePosition()
-    local l, h  = style:getDimensions()
+    local style  = label.getStyle()
+    local x, y   = label.getAbsolutePosition()
+    local l, h   = style:getDimensions()
+    local p_text = text
 
     local pos_x_1 = x + (style.arc_radius_1 + style.arc_radius_4)/2
     local pos_x_2 = x + l - (style.arc_radius_2 + style.arc_radius_3)/2
     local pos_y   = y + (h - style.font:getHeight()) / 2
     local limit   = math.abs(pos_x_2 - pos_x_1)
 
+    while style.font:getWidth(p_text) > limit do
+      local offset = utf8.offset(p_text, -1)
+      p_text = string.sub(p_text, 1, offset - 1)
+    end
+
     love.graphics.setFont(style.font)
-    love.graphics.printf(text, pos_x_1, pos_y, limit, style.text_align)
+    love.graphics.printf(p_text, pos_x_1, pos_y, limit, style.text_align)
   end
 
   label.insertObject(text_obj)
