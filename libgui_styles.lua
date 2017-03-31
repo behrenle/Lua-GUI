@@ -2,6 +2,26 @@ if not gui then
   gui = {}
 end
 
+-- label style
+gui.label_style = {
+  default_style = {
+    draw_area   = false,
+    draw_border = false,
+  }
+}
+
+-- based on label_style
+gui.button_style = {
+  default_style  = {
+    draw_area    = true,
+    draw_border  = true,
+  },
+  hover_style    = {
+    area_color   = {64, 64, 64, 255}
+  }
+}
+
+-- default style
 gui.default_style = {
   x                 = 0,
   y                 = 0,

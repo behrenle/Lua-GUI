@@ -6,6 +6,8 @@ function gui.newLabel(x, y, l, h, text)
   local label = gui.newObject(x, y, l, h)
   local text  = text or "no text"
 
+  label.setStyles(gui.label_style)
+
   function label.setText(str)
     text = str
   end
