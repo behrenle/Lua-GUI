@@ -1,3 +1,7 @@
+if not gui then
+  gui = {}
+end
+
 function gui.newLabel(x, y, l, h, text)
   local label = gui.newObject(x, y, l, h)
   local text  = text or "no text"
