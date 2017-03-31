@@ -6,6 +6,10 @@ end
 gui.slider_style = {
   default_style = {
     draw_area   = false,
+    arc_radius_1 = 10,
+    arc_radius_2 = 10,
+    arc_radius_3 = 10,
+    arc_radius_4 = 10,
   }
 }
 
@@ -14,6 +18,10 @@ gui.label_style = {
   default_style = {
     draw_area   = false,
     draw_border = false,
+    arc_radius_1 = 10,
+    arc_radius_2 = 10,
+    arc_radius_3 = 10,
+    arc_radius_4 = 10,
   }
 }
 
@@ -22,6 +30,10 @@ gui.button_style = {
   default_style  = {
     draw_area    = true,
     draw_border  = true,
+    arc_radius_1 = 10,
+    arc_radius_2 = 10,
+    arc_radius_3 = 10,
+    arc_radius_4 = 10,
   },
   hover_style    = {
     area_color   = {64, 64, 64, 255}
@@ -146,10 +158,10 @@ function gui.default_style:setArcRadius(...)
   end
 end
 function gui.default_style:getArcRadius()
-  return self.arc_Radius_1,
-         self.arc_Radius_2,
-         self.arc_Radius_3,
-         self.arc_Radius_4
+  return self.arc_radius_1,
+         self.arc_radius_2,
+         self.arc_radius_3,
+         self.arc_radius_4
 end
 
 -- area color

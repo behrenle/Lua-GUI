@@ -36,7 +36,9 @@ function gui.newSlider(x, y, l, h, min_val, name, max_val, start_val, s_size)
       end
     end
 
+    button_default:setArcRadius(slider_default:getArcRadius())
     button_default:setDimensions(sl/5, sh)
+
     button_default:setPos(
       value / (max_value - min_value) * 4/5 * sl, 0
     )

@@ -274,7 +274,7 @@ function gui.newObject(X, Y, L, H)
           love.graphics.arc(
             "fill", "pie",
             x_1_top - 1, y_1_left - 1,
-            style.arc_radius_1,
+            style.arc_radius_1 - 1,
             math.pi, 3/2*math.pi
           )
           if style.arc_radius_1 < style.arc_radius_4 then
@@ -300,7 +300,7 @@ function gui.newObject(X, Y, L, H)
           love.graphics.arc(
             "fill", "pie",
             x_2_top + 1, y_1_right - 1,
-            style.arc_radius_2,
+            style.arc_radius_2 - 1,
             3/2*math.pi, 2*math.pi
           )
           if style.arc_radius_2 < style.arc_radius_3 then
@@ -326,7 +326,7 @@ function gui.newObject(X, Y, L, H)
           love.graphics.arc(
             "fill", "pie",
             x_2_bottom + 1, y_2_right + 1,
-            style.arc_radius_3,
+            style.arc_radius_3 - 1,
             0, 1/2*math.pi
           )
           if style.arc_radius_3 ~= style.arc_radius_2 then
@@ -362,7 +362,7 @@ function gui.newObject(X, Y, L, H)
           love.graphics.arc(
             "fill", "pie",
             x_1_bottom - 1, y_2_left + 1,
-            style.arc_radius_4,
+            style.arc_radius_4 - 1,
             1/2*math.pi, math.pi
           )
         end
