@@ -2,11 +2,11 @@ if not gui then
   gui = {}
 end
 
-function gui.newImage(x, y, l, h, imageData)
+function gui.newImage(x, y, l, h, r_img)
   local image  = gui.newObject(x, y, l, h)
-  local img    = imageData
+  local img    = r_img
   local canvas = love.graphics.newCanvas(l, h)
-  local image_data, last_l, last_h
+  local image_data, draw_img, last_l, last_h
 
   image.setStyles(gui.image_style)
 
@@ -20,11 +20,6 @@ function gui.newImage(x, y, l, h, imageData)
       canvas         = love.graphics.newCanvas(l, h)
       love.graphics.setCanvas(canvas)
       love.graphics.draw(img, 0, 0, 0, l / i_l, h / i_h)
-      --[[love.graphics.draw(
-        data, style.line_width_left, style.line_width_top, 0,
-        (l - style.line_width_left - style.line_width_right)/i_l,
-        (h - style.line_width_top - style.line_width_bottom)/i_h
-      )]]
       love.graphics.setCanvas()
       image_data = canvas:newImageData()
 
@@ -38,6 +33,7 @@ function gui.newImage(x, y, l, h, imageData)
       end
 
       image_data:mapPixel(map)
+      draw_img = love.graphics.newImage(image_data)
 
       last_l = l
       last_h = h
@@ -49,7 +45,7 @@ function gui.newImage(x, y, l, h, imageData)
     local x, y     = image.getAbsolutePosition()
     local i_l, i_h = image_data:getDimensions()
     love.graphics.draw(
-      love.graphics.newImage(image_data),
+      draw_img,
       x + style.line_width_left - 1/4, y + style.line_width_left - 1/4, 0,
       (l - style.line_width_left - style.line_width_right + 1/4) / i_l,
       (h - style.line_width_top - style.line_width_bottom + 1/4) / i_h

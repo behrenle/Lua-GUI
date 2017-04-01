@@ -6,7 +6,12 @@ function gui.newSlider(x, y, l, h, min_val, name, max_val, start_val, s_size)
   local slider = gui.newObject(x, y, l, h)
   local button = gui.newButton()
 
+  function slider.getButton()
+    return button
+  end
+
   slider.setStyles(gui.slider_style)
+  button.setStyles(gui.slider_button_style)
 
   local is_moving      = false
   local last_x, last_y = 0, 0
@@ -25,10 +30,13 @@ function gui.newSlider(x, y, l, h, min_val, name, max_val, start_val, s_size)
       is_moving = false
     end
 
+    local s_size  = slider_default.slider_button_l
+
     if is_moving then
       local sx, sy  = slider.getAbsolutePosition()
       local x, y    = love.mouse.getPosition()
-      value         = (x - sx - sl/10) / (4/5 * sl) * (max_value - min_value)
+      value         = (x - sx - sl * s_size / 2) /
+                      ((1 - s_size) * sl) * (max_value - min_value)
       if value < min_value then
         value = min_value
       elseif value > max_value then
@@ -37,10 +45,10 @@ function gui.newSlider(x, y, l, h, min_val, name, max_val, start_val, s_size)
     end
 
     button_default:setArcRadius(slider_default:getArcRadius())
-    button_default:setDimensions(sl/5, sh)
+    button_default:setDimensions(sl * s_size, sh)
 
     button_default:setPos(
-      value / (max_value - min_value) * 4/5 * sl, 0
+      value / (max_value - min_value) * (1 - s_size) * sl, 0
     )
     button.setText(value)
   end
@@ -56,7 +64,7 @@ function gui.newSlider(x, y, l, h, min_val, name, max_val, start_val, s_size)
     is_moving = false
   end
 
-  slider.insertObject(updater)
+  button.insertObject(updater)
   slider.insertObject(button)
 
   return slider

@@ -23,6 +23,7 @@ gui.slider_style = {
     arc_radius_4 = 10,
   }
 }
+gui.slider_button_style = {}
 
 -- label style
 gui.label_style = {
@@ -84,6 +85,7 @@ gui.default_style = {
   text_color        = {255,255,255,255},
   text_align        = "center",
   font              = love.graphics.newFont(24),
+  slider_button_l   = 2/5,
 }
 -- position
 function gui.default_style:setPos(x, y)
