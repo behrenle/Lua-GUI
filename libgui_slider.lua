@@ -25,6 +25,11 @@ function gui.newSlider(x, y, l, h, min_val, name, max_val, start_val)
   end
   function slider.setValue(v)
     value = v
+    if value < min_value then
+      value = min_value
+    elseif value > max_value then
+      value = max_value
+    end
   end
   function slider.getInterval()
     return min_value, max_value
