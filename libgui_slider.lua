@@ -2,7 +2,7 @@ if not gui then
   gui = {}
 end
 
-function gui.newSlider(x, y, l, h, min_val, name, max_val, start_val, s_size)
+function gui.newSlider(x, y, l, h, min_val, name, max_val, start_val)
   local slider = gui.newObject(x, y, l, h)
   local button = gui.newButton()
 
@@ -19,6 +19,20 @@ function gui.newSlider(x, y, l, h, min_val, name, max_val, start_val, s_size)
   local max_value      = max_val or min_value + 1
   local value          = start_val or min_value
   local step_size      = s_size or (max_value - min_value) / 100
+
+  function slider.getValue()
+    return value
+  end
+  function slider.setValue(v)
+    value = v
+  end
+  function slider.getInterval()
+    return min_value, max_value
+  end
+  function slider.setInterval(v_1, v_2)
+    min_value = math.min(tonumber(v_1) or 0, tonumber(v_2) or 1)
+    max_value = math.max(tonumber(v_1) or 0, tonumber(v_2) or 1)
+  end
 
   local updater = {}
   function updater.update(dt)

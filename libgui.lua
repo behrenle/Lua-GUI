@@ -83,6 +83,9 @@ function gui.newObject(X, Y, L, H)
   end
 
   -- sub object methods
+  function object.getDimensions()
+    return object.getStyle():getDimensions()
+  end
   function object.getObjects()
     return objects
   end
